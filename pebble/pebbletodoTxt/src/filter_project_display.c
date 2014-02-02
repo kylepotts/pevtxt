@@ -5,7 +5,7 @@
 static Window *window;
 static MenuLayer* menu_layer;
 
-char strings [8][18];
+char dispstrings [8][18];
 
 int current = 0;
 
@@ -24,11 +24,12 @@ enum TaskKey {
 };
 
 void getListOfTasks(char* task){
+  // task is taken from the index of the menu of filter_project. Its compared with all metadata and all similar tags are added to strings to be displayed
 	int i;
 	for(i=0; i<8; i++){
-		APP_LOG(APP_LOG_LEVEL_DEBUG, "Comparing %s and %s", task, taskItems[i].taskProject);
+		//APP_LOG(APP_LOG_LEVEL_DEBUG, "Comparing %s and %s", task, taskItems[i].taskProject);
 		if(strcmp(task,taskItems[i].taskProject) == 0){
-			strcpy(strings[current],taskItems[i].taskString);
+			strcpy(dispstrings[current],taskItems[i].taskString);
 			current++;
 			
 
@@ -48,7 +49,7 @@ void getListOfTasks(char* task){
 
 static void draw_row_callback(GContext* ctx, Layer *cell_layer, MenuIndex *cell_index, void *data) {
   const int index = cell_index->row;
-  menu_cell_basic_draw(ctx, cell_layer, strings[index], NULL, NULL);
+  menu_cell_basic_draw(ctx, cell_layer, dispstrings[index], NULL, NULL);
 
 
  
@@ -94,11 +95,10 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
-	int i;
-	for(i=0; i<8; i++){
-		strcpy(strings[i]," ");
-		current = 0;
-	}
+  int i;
+  for(i=0; i<8; i++){
+    strcpy(dispstrings[i], " ");
+  }
   
 }
 
@@ -110,6 +110,7 @@ void filter_project_display_init(int index) {
   });
   const bool animated = true;
   getListOfTasks(taskItems[index].taskProject);
+  current = 0;
   window_stack_push(window, animated);
 }
 

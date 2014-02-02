@@ -12,18 +12,18 @@ static TextLayer *text_layer;
 static AppSync sync;
 static uint8_t sync_buffer[256];
 
-
+// These are all temp variables, used to copy into the taskItems struct
 char tasks[8][18];
 char projects[8][18];
 char contexts[8][18];
+int32_t size;
 
-bool isFinished = false;
-
+// Struct containing all string needed for displaying tasks and surrounding meta data.
 taskItem taskItems[8];
 
 enum TaskKey {
-  task0 = 0x0,         // TUPLE_INT
-  task1 = 0x1,  // TUPLE_CSTRING
+  task0 = 0x0,  
+  task1 = 0x1, 
   task2 = 0x2,
   task3 = 0x3,
   task4 = 0x4,
@@ -31,21 +31,14 @@ enum TaskKey {
   task6 = 0x6,
   task7 = 0x7,
   proj0 = 0x8,
-  proj1 = 0x9,  // TUPLE_CSTRING
+  proj1 = 0x9, 
   proj2 = 0xA,
   proj3 = 0xB,
   proj4 = 0xC,
   proj5 = 0xD,
   proj6 = 0xE,
   proj7 = 0xF,
-  con0 = 0x10,
-  con1 = 0x11,  // TUPLE_CSTRING
-  con2 = 0x12,
-  con3 = 0x13,
-  con4 = 0x14,
-  con5 = 0x15,
-  con6 = 0x16,
-  con7 = 0x17,
+  tsize  = 0X10
 
 };
 
@@ -118,8 +111,8 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
     //persist_write_string(7,new_tuple->value->cstring);
 	break;
 
-    case proj0:
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "refresh!  %d", (int)key);
+  case proj0:
+   APP_LOG(APP_LOG_LEVEL_DEBUG, "refresh!  %d", (int)key);
 	strcpy(projects[key-8],new_tuple->value->cstring);
 	memcpy(taskItems[key-8].taskProject,projects[key-8],sizeof(projects[key-8]));
     //persist_write_string(proj0,new_tuple->value->cstring);
@@ -157,52 +150,16 @@ static void sync_tuple_changed_callback(const uint32_t key, const Tuple* new_tup
     case proj7:
 	strcpy(projects[key-8],new_tuple->value->cstring);
 	memcpy(taskItems[key-8].taskProject,projects[key-8],sizeof(projects[key-8]));
-    isFinished = true;
-    APP_LOG(APP_LOG_LEVEL_DEBUG, "isFinised: %d", isFinished);
    // persist_write_string(proj7,new_tuple->value->cstring);
 	break;
-	case con0:
-    
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-    //persist_write_string(proj0,new_tuple->value->cstring);
-	break;
-    case con1:
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-   // persist_write_string(proj1,new_tuple->value->cstring);
-	break;
-    case con2:
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-   // persist_write_string(proj2,new_tuple->value->cstring); 
-	break;
-    case con3:
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-   // persist_write_string(proj3,new_tuple->value->cstring);
-	break;
-    case con4:
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-   // persist_write_string(proj4,new_tuple->value->cstring);
-	break;
-    case con5:
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-    //persist_write_string(proj5,new_tuple->value->cstring);
-	break;
-    case con6:
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-    //persist_write_string(proj6,new_tuple->value->cstring);
-	break;
-    case con7:
-	strcpy(contexts[key-16],new_tuple->value->cstring);
-	memcpy(taskItems[key-16].taskContext,contexts[key-16],sizeof(contexts[key-16]));
-   // persist_write_string(proj7,new_tuple->value->cstring);
-	break;
-	
+    case tsize:
+    size = new_tuple->value->int32;
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Size update to: %d", (int)size);
+    break;
+
+
+
+
                 }
   menu_layer_reload_data(menu_layer);
 
@@ -283,6 +240,7 @@ static void window_load(Window *window) {
 	TupletCString(proj5,projects[5]),
 	TupletCString(proj6,projects[6]),
 	TupletCString(proj7,projects[7]),
+  TupletInteger(tsize,0),
 
 
 

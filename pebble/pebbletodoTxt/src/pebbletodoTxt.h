@@ -1,6 +1,7 @@
 #pragma once
 extern char tasks[8][18];
 extern char projects[8][18];
+extern int32_t size;
 
 typedef struct {
 char taskString[18];

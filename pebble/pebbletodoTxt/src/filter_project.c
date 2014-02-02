@@ -6,9 +6,7 @@
 static Window *window;
 static MenuLayer* menu_layer;
 AppTimer* appTimer;
-
 static int type;
-
 char strings[8][18];
 
 
@@ -24,6 +22,11 @@ void timerCallBack(void* data){
 void getList(){
 		int i;
 		//APP_LOG(APP_LOG_LEVEL_DEBUG, "getList type =  %d", type);
+    /*
+        Before this android we called getData(), so android phone should have set data from AppSync.
+        Android App will use indexes 8-15 for all types (Projects,Contexts,Priorites)
+        we now need to copy the values of the strings in taskItems into our local variable strings to display them
+    */
 		for(i=0; i<8; i++){
 			if(type == 0){
 			strcpy(strings[i], taskItems[i].taskProject);
@@ -98,12 +101,6 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
-	int i;
-        APP_LOG(APP_LOG_LEVEL_DEBUG, "fil_proj unload");
-	for(i=0; i<8; i++){
-		strcpy(taskItems[i].taskProject,"");
-	}
-  
 }
 
 void filter_project_init(int typeList) {

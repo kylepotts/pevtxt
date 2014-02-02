@@ -24,7 +24,8 @@
     "proj4": 12,
     "proj5": 13,
     "proj6": 14,
-    "proj7": 15
+    "proj7": 15,
+    "size" : 16
   },
   "resources": {
     "media": []

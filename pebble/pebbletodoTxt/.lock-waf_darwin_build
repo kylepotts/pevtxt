@@ -1,0 +1,8 @@
+argv = ['/Users/kyle/pebble-dev/PebbleSDK-2.0-BETA7/Pebble/waf', 'configure', 'build']
+environ = {'SSH_AUTH_SOCK': '/tmp/launch-aHu3Vg/Listeners', 'VERSIONER_PYTHON_PREFER_32_BIT': 'no', 'SHELL': '/bin/bash', 'LOGNAME': 'kyle', 'USER': 'kyle', 'HOME': '/Users/kyle', 'ITERM_PROFILE': 'Default', 'PATH': '/Users/kyle/pebble-dev/PebbleSDK-2.0-BETA7/arm-cs-tools/bin:/Users/kyle/pebble-dev/PebbleSDK-2.0-BETA7/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin', 'TMPDIR': '/var/folders/w7/8_rv_dv51tjbfjrz17dsmtmw0000gn/T/', 'TERM_PROGRAM': 'iTerm.app', 'LANG': 'en_US.UTF-8', 'TERM': 'xterm', 'Apple_PubSub_Socket_Render': '/tmp/launch-dGDc7B/Render', 'COLORFGBG': '12;8', 'VERSIONER_PYTHON_VERSION': '2.7', 'SHLVL': '2', 'ITERM_SESSION_ID': 'w0t0p0', '__CF_USER_TEXT_ENCODING': '0x1F5:0:0', 'PWD': '/Users/kyle/Documents/workspace/pebTodoTxt/pebble/pebbletodoTxt', '_': '/Users/kyle/pebble-dev/PebbleSDK-2.0-BETA7/Pebble/waf', '__CHECKFIX1436934': '1'}
+files = ['/Users/kyle/Documents/workspace/pebTodoTxt/pebble/pebbletodoTxt/wscript']
+hash = 4672844372416070989
+options = {'files': '', 'jobs': 4, 'verbose': 0, 'nocache': False, 'progress_bar': 0, 'timestamp': None, 'distcheck_args': None, 'top': '', 'destdir': '', 'keep': 0, 'zones': '', 'debug': False, 'prefix': '/usr/local/', 'download': False, 'force': False, 'targets': '', 'out': ''}
+out_dir = '/Users/kyle/Documents/workspace/pebTodoTxt/pebble/pebbletodoTxt/build'
+run_dir = '/Users/kyle/Documents/workspace/pebTodoTxt/pebble/pebbletodoTxt'
+top_dir = '/Users/kyle/Documents/workspace/pebTodoTxt/pebble/pebbletodoTxt'

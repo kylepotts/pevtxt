@@ -40,6 +40,7 @@ static void select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *
   }
 
   if(index == 1){
+    // Get List of All Projects, open new window displaying them
     getData("get_project_list");
     filter_project_init(index-1);
     
@@ -48,11 +49,9 @@ static void select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *
   }
 
   if(index == 2){
+    // Get List of All Contexts, open new window displaying them
     getData("get_contexts_list");
     filter_project_init(index-1);
-    
-    //context_project_init();
-  
   }
 }
 
@@ -100,6 +99,10 @@ static void window_unload(Window *window) {
     .unload = window_unload,
   });
   const bool animated = true;
+  int i;
+  for(i=0; i<8; i++){
+    strcpy(taskItems[i].taskProject," ");
+  }
   window_stack_push(window, animated);
 }
 

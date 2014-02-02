@@ -81,6 +81,11 @@ public class MainActivity extends Activity {
 		    		
 		    		
 		    	}
+		    	
+		    	if(s.equals("reset")){
+		    		
+		    		;
+		    	}
 				PebbleKit.sendAckToPebble(getApplicationContext(), transactionId);
 				
 			}
@@ -161,19 +166,30 @@ public class MainActivity extends Activity {
 		
 	}
 	
-	public void opendbClick(View v){
-		/*
-		 mChooser.forResultType(DbxChooser.ResultType.DIRECT_LINK)
-         .launch(MainActivity.this, DBX_CHOOSER_REQUEST);
-         */
-		//mDbxAcctMgr.startLink((Activity)this, REQUEST_LINK_TO_DBX);
+	public void loadData(View v){
+		if(mDbxAcctMgr.hasLinkedAccount()){
+			try {
+				handleDBXFiles();
+			} catch (DbxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
+	}
+	
+	public void opendbClick(View v){
+         if(!mDbxAcctMgr.hasLinkedAccount()){
+		mDbxAcctMgr.startLink((Activity)this, REQUEST_LINK_TO_DBX);
+         }
+		/*
 		try {
 			handleDBXFiles();
 		} catch (DbxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 		
 		
 	}
@@ -215,6 +231,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void handleDBXFiles() throws DbxException{
+		Log.d("debug", DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount()).toString());
 		DbxFileSystem dbxFs = DbxFileSystem.forAccount(mDbxAcctMgr.getLinkedAccount());
 		DbxPath path = new DbxPath("/todo/todo.txt");
 		DbxFile todoFile = dbxFs.open(path);
@@ -236,13 +253,15 @@ public class MainActivity extends Activity {
 	
 	
 	public void getListOfProjects(){
-		for(int i=0; i<todoTasks.size(); i++){
+		for(int i=0; i<8; i++){
+			if(!(i>=todoTasks.size())){
 			String task = todoTasks.get(i).getProject();
 			Log.d("listProj", task);
 				if(!todoTasks.contains(task)){
 				listOfProjects.add(task);
 				}
-				else{
+			}
+				else if(i >= todoTasks.size()){
 					listOfProjects.add(" ");
 				}
 			
@@ -251,10 +270,16 @@ public class MainActivity extends Activity {
 	}
 	
 	public void getListOfContexts(){
-		for(int i=0; i<todoTasks.size(); i++){
+		for(int i=0; i<8; i++){
+			if(!(i>=todoTasks.size())){
 			if(todoTasks.get(i).getContext() != null){
 			String context = todoTasks.get(i).getContext();
+			if(!(listOfContexts.contains(context)))
 			listOfContexts.add(context);
+			}
+		}
+			else if (i>= todoTasks.size()){
+				listOfContexts.add(" ");
 			}
 		}
 	}
